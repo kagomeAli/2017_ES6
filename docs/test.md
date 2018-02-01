@@ -44,6 +44,9 @@ view是视图，app.vue是一个应用主组件，main.js是入口文件
 hash：通过改变hash值，
 history：利用history对象的新特性
 
+Hash 例如: xxx.com/#/id=5 HTTP请求不会包含后面的hash值，所以请求的仍然是 xxx.com,没有问题
+History 例如:  xxx.com/id=5 这时请求的便是xxx.com/id=5，如后端没有配置对应id=XXX的路由处理，则会返回404错误。
+
 而在vue-router中，它提供mode参数来决定采用哪一种方式，选择流程如下:
 默认Hash-->如果浏览器支持History新特性改用History-->如果不在浏览器环境则使用abstract
 
@@ -61,5 +64,28 @@ Hash：
 History
     1.push
     与hash模式类型，只是将window.hash改为history.hashState,
+    2.replace
+    与hash模式类似，只是将window.replace改为history.replaceState
+    3.监听地址变化
+    在HTML5History的构造函数中监听popState（window.onpopstate）
+
+
+# Vue 非父子组件之间的通信
+vue2中废弃了$dispatch和$broadcast广播和分发事件的方法。父子组件中可以用props和$emit()。
+如何实现非父子组件间的通信，可以通过实例一个vue实例Bus作为媒介，要相互通信的兄弟组件之中，都引入Bus，
+之后通过分别调用Bus事件触发和监听来实现组件之间的通信和参数传递
+
+#Vuex
+
+
+
+
+
+
+
+
+
+
+
 
 
