@@ -1,0 +1,251 @@
+# 10.Set和Map数据结构
+
+# Set
+基本用法：
+  ES6提供新的数据结构Set，她蕾丝与数组，但是成员的值都是唯一的，没有重复的值。。。
+
+Set本身是一个构造函数，生成Set数据结构
+
+```
+const s = new Set();
+
+[2, 3, 5, 4, 5, 2, 2].forEach(x => s.add(x));
+
+for (let i of s) {
+  console.log(i);
+}
+// 2 3 5 4
+```
+
+
+向 Set 加入值的时候，不会发生类型转换，所以5和"5"是两个不同的值。Set 内部判断两个值是否不同，使用的算法叫做“Same-value-zero equality”，它类似于精确相等运算符（===），主要的区别是NaN等于自身，而精确相等运算符认为NaN不等于自身。
+
+两个对象总是不相等的
+
+
+```
+let set = new Set();
+let a = NaN;
+let b = NaN;
+set.add(a);
+set.add(b);
+set // Set {NaN}
+
+
+
+let set = new Set();
+
+set.add({});
+set.size // 1
+
+set.add({});
+set.size // 2
+
+```
+
+
+## Set实例的属性和方法
+
+**Set.prototype.constructor：**构造函数，默认就是Set函数。
+**Set.prototype.size：**返回Set实例的成员总数。
+
+Set 实例的方法分为两大类：操作方法（用于操作数据）和遍历方法（用于遍历成员）。下面先介绍四个操作方法。
+
+1. add(value)：添加某个值，返回 Set 结构本身。
+2. delete(value)：删除某个值，返回一个布尔值，表示删除是否成功。
+3. has(value)：返回一个布尔值，表示该值是否为Set的成员。
+4. clear()：清除所有成员，没有返回值。
+
+
+## 遍历操作
+Set的遍历顺序就是插入顺序。这个特性有时非常有用，比如使用 Set 保存一个回调函数列表，调用时就能保证按照添加顺序调用。
+
+- [ ] keys()：返回键名的遍历器
+- [ ] values()：返回键值的遍历器
+- [ ] entries()：返回键值对的遍历器
+- [ ] forEach()：使用回调函数遍历每个成员
+
+Set 结构没有键名，只有键值（或者说键名和键值是同一个值），所以keys方法和values方法的行为完全一致
+
+```
+let set = new Set(['red', 'green', 'blue']);
+
+for (let item of set.keys()) {
+  console.log(item);
+}
+// red
+// green
+// blue
+
+for (let item of set.values()) {
+  console.log(item);
+}
+// red
+// green
+// blue
+
+for (let item of set.entries()) {
+  console.log(item);
+}
+// ["red", "red"]
+// ["green", "green"]
+// ["blue", "blue"]
+```
+
+#
+
+# Map
+Map 结构提供了“值—值”的对应，是一种更完善的 Hash 结构实现。
+
+```
+const m = new Map();
+const o = {p: 'Hello World'};
+
+m.set(o, 'content')
+m.get(o) // "content"
+
+m.has(o) // true
+m.delete(o) // true
+m.has(o) // false
+
+```
+
+
+Map构造函数接受数组作为参数，实际上执行的是下面的算法
+
+```
+const arr = [
+    ['name': '张三'],
+    ['title', 'Author']
+];
+
+const map = new Map();
+
+arr.forEach(
+      ([key,value]) =>map.set(key,value)
+)
+```
+
+同一个键多次赋值，后面的值将覆盖前面的值。
+读取一个未知的键，则返回undefined
+
+```
+const map = new Map();
+
+map
+.set(1, 'aaa')
+.set(1, 'bbb');
+
+map.get(1) // "bbb"
+
+new Map().get('asfddfsasadf')
+// undefined
+
+```
+
+_注意，只有对同一个对象的引用，Map结构才将其视为同一个键。_
+
+```
+const map = new Map()
+ map.set(['a'], 555)
+ map.get(['a'])   // undefined
+
+var b = ['b']
+map.set(b, 666)
+map.get(b)       // 666
+
+const map = new Map();
+
+const k1 = ['a'];
+const k2 = ['a'];
+
+map
+.set(k1, 111)
+.set(k2, 222);
+
+map.get(k1) // 111
+map.get(k2) // 222
+
+```
+上面代码的set和get方法，表面是针对同一个键，但实际上这是两个值，内存地址是不一样的，因此get方法无法读取该键，返回undefined。
+
+Map 的键实际上是跟内存地址绑定的，只要内存地址不一样，就视为两个键
+
+如果 Map 的键是一个简单类型的值（数字、字符串、布尔值），则只要两个值严格相等，Map 将其视为一个键，比如0和-0就是一个键，布尔值true和字符串true则是两个不同的键。另外，undefined和null也是两个不同的键。虽然NaN不严格相等于自身，但 Map 将其视为同一个键。
+
+```
+let map = new Map();
+
+map.set(-0, 123);
+map.get(+0) // 123
+
+map.set(true, 1);
+map.set('true', 2);
+map.get(true) // 1
+
+map.set(undefined, 3);
+map.set(null, 4);
+map.get(undefined) // 3
+
+map.set(NaN, 123);
+map.get(NaN) // 123
+```
+
+
+#
+
+## Map实例的属性
+
+### size属性：
+  size属性返回 Map 结构的成员总数
+### set(key, value)
+   set方法设置键名key对应的键值为value，然后返回整个 Map 结构。如果key已经有值，则键值会被更新，否则就新生成该键。
+### get(key)
+  get方法读取key对应的键值，如果找不到key，返回undefined。
+### has(key)
+   has方法返回一个布尔值，表示某个键是否在当前 Map 对象之中。
+### delete(key)
+    delete方法删除某个键，返回true。如果删除失败，返回false。
+### clear()
+   clear方法清除所有成员，没有返回值。
+
+## Map遍历方法
+
+- [ ] keys()：返回键名的遍历器。
+- [ ] values()：返回键值的遍历器。
+- [ ] entries()：返回所有成员的遍历器。
+- [ ] forEach()：遍历 Map 的所有成员。
+
+
+Map 结构转为数组结构，比较快速的方法是使用扩展运算符（...）。
+```
+const map = new Map([
+  [1, 'one'],
+  [2, 'two'],
+  [3, 'three'],
+]);
+
+[...map.keys()]
+// [1, 2, 3]
+
+[...map.values()]
+// ['one', 'two', 'three']
+
+[...map.entries()]
+// [[1,'one'], [2, 'two'], [3, 'three']]
+
+[...map]
+// [[1,'one'], [2, 'two'], [3, 'three']]
+```
+
+
+
+
+
+
+
+
+
+
+
+
