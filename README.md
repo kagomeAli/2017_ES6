@@ -17,3 +17,4 @@
 8.  [对象的扩展](docs/8.对象的扩展.md)
 9.   [Symbol了解](docs/9.Symbol了解.md)
 10.   [Set和Map](docs/10.Set和Map.md)
+11.   [Proxy代理](docs/11.Proxy代理.md)
