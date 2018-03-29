@@ -22,3 +22,4 @@
 13.   [Promise对象](docs/13.Promise对象.md)
 14.   [Iterator遍历器](docs/14.Iterator遍历器.md)
 15.   [Generator阶层调用](docs/15.Generator阶层调用.md)
+16.   [Generator函数的异步调用](docs/16.Generator函数的异步调用.md)
