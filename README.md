@@ -24,3 +24,4 @@
 15.   [Generator阶层调用](docs/15.Generator阶层调用.md)
 16.   [Generator函数的异步调用](docs/16.Generator函数的异步调用.md)
 17.   [async函数](docs/17.async函数.md)
+18.   [Class的基本语法](docs/18.Class的基本语法.md)
